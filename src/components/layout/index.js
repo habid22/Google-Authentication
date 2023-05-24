@@ -23,7 +23,7 @@ export default function Layout() {
  return (
     <>
 
-   
+    This is the child: <Outlet/>
     
     </>
  );
