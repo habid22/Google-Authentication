@@ -29,12 +29,13 @@ export default function Login() {
         
         <Text fontSize="xlg" align="center" mt="6">
             Don't have an account?{" "}
-            <Link 
+            <Link
+            as={RouterLink} 
             to={REGISTER}
             color = "teal.800"
             fontWeight={"medium"}
             textDecor={"underline"}
-        _   hover={{background: "teal.100"}}
+            _hover={{background: "teal.100"}}
         >
                 Register
             </Link> {" "}
