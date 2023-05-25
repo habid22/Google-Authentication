@@ -11,7 +11,7 @@ export function useAuth() {
     const [authUser, isLoading, error] = useAuthState(auth);
     
     
-    return {user: authUser, isLoading: isLoading, error};
+    return {user: authUser, isLoading, error};
 }
 
 export function useLogin() {
@@ -24,13 +24,13 @@ export function useLogin() {
 
 
         try {
-        await signInWithEmailAndPassword(auth, email, password)
-        toast ({
-            title: "You are logged in",
-            status: "success",
-            isClosable: true,
-            position: "top",
-            duration: 5000,
+            await signInWithEmailAndPassword(auth, email, password)
+            toast ({
+                title: "You are logged in",
+                status: "success",
+                isClosable: true,
+                position: "top",
+                duration: 5000,
         });
         navigate(redirectTo);
         }
