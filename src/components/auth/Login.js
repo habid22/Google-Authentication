@@ -31,18 +31,18 @@ export default function Login() {
 
         <form onSubmit={handleSubmit(handleLogin)}>
             
-            <FormControl isInvalid={errors.email && errors.email.message} py="2">
+            <FormControl isInvalid={errors.email} py="2">
                 <FormLabel>Email</FormLabel>
                 <Input type="email" placeholder="user@email.com" {...register('email', emailValidate)}/>
-                <FormErrorMessage>{errors.email}</FormErrorMessage>
+                <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={errors.password && errors.password.message} py="2">
+            <FormControl isInvalid={errors.password} py="2">
                 <FormLabel>Password</FormLabel>
                 <Input type="password" placeholder="password123" {...register('password', passwordValidate)}/>
-                <FormErrorMessage>{errors.password} </FormErrorMessage>
+                <FormErrorMessage>{errors.password && errors.password.message} </FormErrorMessage>
             </FormControl>
-            <Button mt="4" type="submit" colorScheme="teal" size="md" w="full" /* isLoading={true} */ loadingText="Logging In">
+            <Button mt="4" type="submit" colorScheme="teal" size="md" w="full"  isLoading={isLoading}  loadingText="Logging In">
                 Log In
             </Button>
         </form>
