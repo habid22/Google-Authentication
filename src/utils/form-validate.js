@@ -27,7 +27,7 @@ export const usernameValidate = {
   export const passwordValidate = {
     required: {
       value: true,
-      message: "Please enter password",
+      message: "Please enter a password",
     },
     minLength: {
       value: 6,

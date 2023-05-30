@@ -33,13 +33,13 @@ export default function Login() {
             
             <FormControl isInvalid={errors.email} py="2">
                 <FormLabel>Email</FormLabel>
-                <Input type="email" placeholder="user@email.com" {...register('email', emailValidate)}/>
+                <Input type="email" placeholder="Enter your email" {...register('email', emailValidate)}/>
                 <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={errors.password} py="2">
                 <FormLabel>Password</FormLabel>
-                <Input type="password" placeholder="password123" {...register('password', passwordValidate)}/>
+                <Input type="password" placeholder="Enter your password" {...register('password', passwordValidate)}/>
                 <FormErrorMessage>{errors.password && errors.password.message} </FormErrorMessage>
             </FormControl>
             <Button mt="4" type="submit" colorScheme="teal" size="md" w="full"  isLoading={isLoading}  loadingText="Logging In">
