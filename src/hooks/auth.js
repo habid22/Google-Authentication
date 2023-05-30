@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
 import { set } from 'react-hook-form';
 import { setDoc, doc } from 'firebase/firestore';
+import isUsernameExist from '../utils/isUserNameExists';
+
 
 export function useAuth() {
 
@@ -57,62 +59,65 @@ export function useLogin() {
 export function useRegister() {
     const [isLoading, setLoading] = useState(false);
     const toast = useToast();
-    async function register({username, email, password, redirectTo = DASHBOARD})
-
-    {
-        setLoading(true);
-       const usernameExists = await isUsernameExists(username)
-
-       if(usernameExists) {
+    const navigate = useNavigate();
+  
+    async function register({
+      username,
+      email,
+      password,
+      redirectTo = DASHBOARD,
+    }) {
+      setLoading(true);
+  
+      const usernameExists = await isUsernameExist(username);
+  
+      if (usernameExists) {
         toast({
-            title: "Username already exists",
+          title: "Username already exists",
+          status: "error",
+          isClosable: true,
+          position: "top",
+          duration: 5000,
+        });
+        setLoading(false);
+      } else {
+        try {
+          const res = await createUserWithEmailAndPassword(auth, email, password);
+  
+          await setDoc(doc(db, "users", res.user.uid), {
+            id: res.user.uid,
+            username: username.toLowerCase(),
+            avatar: "",
+            date: Date.now(),
+          });
+  
+          toast({
+            title: "Account created",
+            description: "You are logged in",
+            status: "success",
+            isClosable: true,
+            position: "top",
+            duration: 5000,
+          });
+  
+          navigate(redirectTo);
+        } catch (error) {
+          toast({
+            title: "Signing Up failed",
+            description: error.message,
             status: "error",
             isClosable: true,
             position: "top",
             duration: 5000,
-        });
-        setLoading(false);
-  
-       }
-       else {
-        try {
-            const res = await createUserWithEmailAndPassword(auth, email, password);
-
-            await setDoc(doc(db, "users", res.user.uid), {
-                id: res.user.uid, username: username.toLowerCase(), avatar: "", date: Date.now(),
-            })
-
-            toast({
-                title: "Account created",
-                description: "You are now logged in",
-                status: "success",
-                isClosable: true,
-                position: "top",
-                duration: 5000,
-            });
-
-            navigate(redirectTo);
-        }
-        catch (error) {
-            toast({
-                title: "Account creation failed",
-                description: error.message,
-                status: "error",
-                isClosable: true,
-                position: "top",
-                duration: 5000,
-            });
-
+          });
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
-
-       setLoading(false);
-
-    
-
-    return {register, isLoading};
-}
+      }
+    }
+  
+    return { register, isLoading };
+  }
 
 export function useLogout() {
     const [ signOut, isLoading, error] = useSignOut(auth);
