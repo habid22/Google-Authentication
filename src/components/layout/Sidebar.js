@@ -1,5 +1,5 @@
 
-import { Box } from '@chakra-ui/react'
+import { Avatar, Box } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { USERS } from '../../lib/routers'
@@ -10,17 +10,25 @@ import { PROTECTED } from '../../lib/routers'
 
 
 function ActiveUser() {
-    const {user, isLoading} = useAuth();
-
+    const { user, isLoading } = useAuth();
+  
     if (isLoading) return "Loading...";
-
+  
     return (
-     <Stack align="center" spacing="5" my="8">
+      <Stack align="center" spacing="5" my="8">
+        <Avatar name ={user.username} size="xl" />   
         <Code>@{user.username}</Code>
-        <Button colorScheme='teal' w="full" as={Link} to={`${PROTECTED}/profile/${user.id}`}>Edit Profile</Button>
-    </Stack>
+        <Button
+          colorScheme="teal"
+          w="full"
+          as={Link}
+          to={`${PROTECTED}/profile/${user.id}`}
+        >
+          Edit Profile
+        </Button>
+      </Stack>
     );
-}
+  }
 
 export default function Sidebar() {
     return (

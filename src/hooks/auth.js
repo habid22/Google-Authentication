@@ -5,17 +5,34 @@ import { DASHBOARD, LOGIN } from '../lib/routers';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
-import { set } from 'react-hook-form';
 import { setDoc, doc } from 'firebase/firestore';
 import isUsernameExist from '../utils/isUserNameExists';
+import { useEffect } from 'react';
+import { getDoc } from 'firebase/firestore';
+
 
 
 export function useAuth() {
+  const [authUser, authLoading, error] = useAuthState(auth);
+  const [isLoading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
-    const [authUser, isLoading, error] = useAuthState(auth);
-    
-    
-    return {user: authUser, isLoading, error};
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      const ref = doc(db, "users", authUser.uid);
+      const docSnap = await getDoc(ref);
+      setUser(docSnap.data());
+      setLoading(false);
+    }
+
+    if (!authLoading) {
+      if (authUser) fetchData();
+      else setLoading(false); // Not signed in
+    }
+  }, [authLoading]);
+
+  return { user, isLoading, error };
 }
 
 export function useLogin() {

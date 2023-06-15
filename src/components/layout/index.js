@@ -15,7 +15,7 @@ export default function Layout() {
 
 
  useEffect(() => {
-    if (pathname.startsWith("/protected") && !user) {
+    if (!isLoading && pathname.startsWith("/protected") && !user) {
         navigate(LOGIN);
     }
 
