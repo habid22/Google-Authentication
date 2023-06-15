@@ -1,5 +1,5 @@
 
-import { Avatar, Box } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { USERS } from '../../lib/routers'
@@ -7,6 +7,7 @@ import { Code } from '@chakra-ui/react'
 import { Stack } from '@chakra-ui/react'
 import { useAuth } from '../../hooks/auth'
 import { PROTECTED } from '../../lib/routers'
+import Avatar from '../profile/Avatar'
 
 
 function ActiveUser() {
@@ -16,7 +17,7 @@ function ActiveUser() {
   
     return (
       <Stack align="center" spacing="5" my="8">
-        <Avatar name ={user.username} size="xl" />   
+        <Avatar user={user} />
         <Code>@{user.username}</Code>
         <Button
           colorScheme="teal"
