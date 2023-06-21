@@ -4,10 +4,12 @@ import { Box } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { useForm } from 'react-hook-form';
-import { useAddPost } from '../hooks/posts';
+import  useAddPost  from '../hooks/posts';
 import { useAuth } from '../hooks/auth';
+import PostLists from '../components/post/PostLists';
 
-export default function Dashbaord() {
+function NewPost() {
+
   const {register, handleSubmit, reset} = useForm();
   const {addPost, isLoading: addingPost} = useAddPost();  
   const {user, isLoading: authLoading} = useAuth();
@@ -21,9 +23,8 @@ export default function Dashbaord() {
     console.log(data);
     reset();
   }
-
-  return (
-  <Box maxW="600" mx="auto"  py="10">
+  
+  return <Box maxW="600" mx="auto"  py="10">
     <form onSubmit={handleSubmit(handleAddPost)}>
       <HStack justify="space-between">
         <Heading size="lg">New Post</Heading>
@@ -37,15 +38,20 @@ export default function Dashbaord() {
         placeholder="Create a new post..."
         minRows={3}
         {...register("text", {required: true})} 
-        />
-
-
-      
+        />  
     </form>
-
-
-
   </Box>
+    
+  
+}
+
+export default function Dashbaord() {
+  return (
+  <> 
+    <NewPost/>
+    <PostLists/>
+
+  </>
    
   );
 }
